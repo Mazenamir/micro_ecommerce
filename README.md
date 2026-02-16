@@ -1,49 +1,54 @@
 # 📦 Micro E-Commerce Backend API
 
-A simple authentication backend built using Node.js, Express, MongoDB, and Mongoose.
+A simple **Micro E-Commerce Backend API** built using **Node.js,
+Express, MongoDB, and Mongoose**.
 
-This project provides user registration and login functionality with password hashing using bcrypt.
+This project provides:
 
----
+-   User authentication (Register / Login)
+-   Admin product management
+-   Product browsing & searching
+-   Stock management basics
+
+------------------------------------------------------------------------
 
 ## 🚀 Tech Stack
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- bcrypt
-- Nodemon
+-   Node.js
+-   Express.js
+-   MongoDB
+-   Mongoose
+-   bcrypt
+-   Nodemon
 
----
+------------------------------------------------------------------------
 
 ## 📁 Project Structure
 
-```
-micro_ecommerce/
-│
-├── models/
-│   └── User.js
-│
-├── server.js
-├── package.json
-└── README.md
-```
+    micro_ecommerce/
+    │
+    ├── models/
+    │   ├── User.js
+    │   └── Product.js
+    │
+    ├── server.js
+    ├── package.json
+    └── README.md
 
----
+------------------------------------------------------------------------
 
 ## ⚙️ Installation
 
 ### 1️⃣ Clone the repository
 
-```bash
+``` bash
 git clone https://github.com/your-username/micro_ecommerce.git
 cd micro_ecommerce
 ```
 
 ### 2️⃣ Install dependencies
 
-```bash
+``` bash
 npm install
 ```
 
@@ -51,45 +56,43 @@ npm install
 
 Default connection string:
 
-```
-mongodb://localhost:27017/micro
-```
+    mongodb://localhost:27017/micro
 
----
+------------------------------------------------------------------------
 
 ## ▶️ Run the Server
 
 ### Development (with nodemon)
 
-```bash
+``` bash
 nodemon server.js
 ```
 
 ### Or normal start
 
-```bash
+``` bash
 node server.js
 ```
 
 Server runs on:
 
-```
-http://localhost:5000
-```
+    http://localhost:5000
 
----
+------------------------------------------------------------------------
 
 # 📌 API Endpoints
 
----
+------------------------------------------------------------------------
 
-## 🔐 Register User
+# 🔐 Authentication
+
+## 📝 Register User
 
 ### POST `/api/register`
 
-### Request Body (JSON)
+### Request Body
 
-```json
+``` json
 {
   "username": "mazen",
   "email": "mazen@email.com",
@@ -98,97 +101,134 @@ http://localhost:5000
 }
 ```
 
-### Success Response
-
-```json
-{
-  "message": "User registered successfully",
-  "user": {
-    "_id": "...",
-    "username": "mazen",
-    "email": "mazen@email.com",
-    "role": "user"
-  }
-}
-```
-
----
+------------------------------------------------------------------------
 
 ## 🔓 Login User
 
 ### POST `/api/login`
 
-### Request Body (JSON)
+### Request Body
 
-```json
+``` json
 {
   "email": "mazen@email.com",
   "password": "123456"
 }
 ```
 
-### Success Response
+------------------------------------------------------------------------
 
-```json
+# 🛍 Product Management
+
+## 👨‍💼 Add Product (Admin Only)
+
+### POST `/api/products`
+
+### Request Body
+
+``` json
 {
-  "message": "Login successful",
-  "user": {
-    "_id": "...",
-    "username": "mazen",
-    "email": "mazen@email.com",
-    "role": "user"
-  }
+  "role": "admin",
+  "name": "Laptop",
+  "price": 15000,
+  "stockQuantity": 10
 }
 ```
 
----
+------------------------------------------------------------------------
+
+## ✏️ Update Product (Admin Only)
+
+### PUT `/api/products/:id`
+
+### Request Body
+
+``` json
+{
+  "role": "admin",
+  "name": "Laptop Pro",
+  "price": 18000,
+  "stockQuantity": 8
+}
+```
+
+------------------------------------------------------------------------
+
+## 📦 Get All Products
+
+### GET `/api/products`
+
+Returns list of all available products.
+
+------------------------------------------------------------------------
+
+## 🔎 Get Product By ID
+
+### GET `/api/products/:id`
+
+Returns single product details.
+
+------------------------------------------------------------------------
+
+## 🔍 Search Products
+
+### GET `/api/products/search?name=laptop`
+
+Search products by name (case insensitive).
+
+------------------------------------------------------------------------
 
 # 🔐 Features
 
-- User Registration
-- Duplicate Email/Username Validation
-- Password Hashing using bcrypt
-- Login Authentication
-- MongoDB Database Integration
-- Proper Error Handling
+-   User Registration
+-   Duplicate Email/Username Validation
+-   Password Hashing using bcrypt
+-   Login Authentication
+-   Admin Product Management
+-   Product Search (Regex Based)
+-   MongoDB Database Integration
+-   Basic Role-Based Control (Beginner Level)
+-   Proper Error Handling
 
----
+------------------------------------------------------------------------
 
-# 🛠 Environment Variables (Optional Improvement)
+# 🛠 Environment Variables (Recommended Improvement)
 
-You can create a `.env` file:
+Create a `.env` file:
 
-```
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/micro
-```
+    PORT=5000
+    MONGO_URI=mongodb://localhost:27017/micro
 
-Then install dotenv:
+Install dotenv:
 
-```bash
+``` bash
 npm install dotenv
 ```
 
-And add in `server.js`:
+Add to `server.js`:
 
-```js
+``` js
 require('dotenv').config();
 ```
 
----
+------------------------------------------------------------------------
 
 # 📌 Future Improvements
 
-- JWT Authentication
-- Role-Based Authorization
-- Product APIs
-- Cart & Orders
-- Docker Support
-- Deployment (Render / Railway / AWS)
+-   JWT Authentication
+-   Real Role-Based Middleware
+-   Shopping Cart System
+-   Order & Checkout System
+-   Stock Deduction Logic
+-   MVC Architecture Refactor
+-   API Documentation (Swagger)
+-   Docker Support
+-   Deployment (Render / Railway / AWS)
 
----
+------------------------------------------------------------------------
 
 # 👨‍💻 Author
 
-Mazen Amir  
-AI based Software Engineer 🚀
+**Mazen Amir**\
+ِAI based Software Engineer 🚀\
+Building scalable micro e-commerce systems step by step 🔥
