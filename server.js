@@ -29,37 +29,44 @@ dbconnect();
 
 
 //REQUIRE THE USER MODEL
-const User = require('./models/User');
+const userRoutes = require("./routes/userRoutes") ;
+app.use('/user', userRoutes);
+app.use('/login', userRoutes);
 
-app.post('/api/register', async (req, res) => {
-    try {
-        //get the user data from the request body
-        const { username, email, password, role } = req.body;
-        //validate the user data
-        if (!username || !email || !password) return res.status(400).json({ message: 'All fields are required' });
+// const User = require('./models/User');
 
-            const existingUser = await User.findOne({ $or: [{ username }, { email }] });
-            if (existingUser) {
-                return res.status(400).json({ message: 'Username or email already exists' });
-            }
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await User.create({ 
-                username, 
-                email, 
-                password: hashedPassword, 
-                role });
+// app.post('/api/register', async (req, res) => {
+//     try {
+//         //get the user data from the request body
+//         const { username, email, password, role } = req.body;
+//         //validate the user data
+//         if (!username || !email || !password) return res.status(400).json({ message: 'All fields are required' });
 
-        //send the response
-        res.status(201).json({ message: 'User registered successfully', user });
+//             const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+//             if (existingUser) {
+//                 return res.status(400).json({ message: 'Username or email already exists' });
+//             }
+//             const hashedPassword = await bcrypt.hash(password, 10);
+//             const user = await User.create({ 
+//                 username, 
+//                 email, 
+//                 password: hashedPassword, 
+//                 role });
 
-    } catch (error) {
-        console.error('Error registering user:', error);
-        res.status(500).json({ message: 'Server error' });
-    }
-});
+//         //send the response
+//         res.status(201).json({ message: 'User registered successfully', user });
+
+//     } catch (error) {
+//         console.error('Error registering user:', error);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// });
 
 
 // login route
+
+
+
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -84,23 +91,30 @@ app.post('/api/login', async (req, res) => {
 
 
 //product route
-const product = require('./models/Product');
+// const product = require('./models/Product');
 
-app.post('/api/products', async (req, res) => {
-    try {
-        const { name, price, stockQuantity } = req.body;
-        if (!name || !price || !stockQuantity) return res.status(400).json({ message: 'All fields are required' });
-        // check user role is admin
-        if (req.userId && req.userId.role !== 'admin') {
-            return res.status(400).json({ message: 'You do not have permission' });
-        }
-        const newProduct = await product.create({ name, price, stockQuantity });
-        res.status(201).json({ message: 'Product created successfully', product: newProduct });
-    } catch (error) {
-        console.error('Error creating product:', error);
-        res.status(500).json({ message: 'Server error' });
-    }
-});
+
+const prodRoutes = require("./routes/prodRoutes");
+
+app.use("/api/products", prodRoutes);
+
+
+
+// app.post('/api/products', async (req, res) => {
+//     try {
+//         const { name, price, stockQuantity } = req.body;
+//         if (!name || !price || !stockQuantity) return res.status(400).json({ message: 'All fields are required' });
+//         // check user role is admin
+//         if (req.userId && req.userId.role !== 'admin') {
+//             return res.status(400).json({ message: 'You do not have permission' });
+//         }
+//         const newProduct = await product.create({ name, price, stockQuantity });
+//         res.status(201).json({ message: 'Product created successfully', product: newProduct });
+//     } catch (error) {
+//         console.error('Error creating product:', error);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// });
 
 
 // Admin – Update Product
@@ -165,6 +179,9 @@ app.get('/products/:name',async(req,res)=>{
         console.log(error);
     }
 });
+
+
+// MVC START FROM HERE :
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
